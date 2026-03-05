@@ -10,11 +10,6 @@ import numpy as np
 from collections import defaultdict
 import json
 import re
-# 相比于v1严格计算ocr结果在原图中的位置，该脚本仅使用中心距离进行判断
-# 相比于full版本，该版本使用yolo对表格位置信息进行识别，此外提供更加高精度的分子区域识别
-# 相比v2版本，此版本为图像新型在数据说明文件，说明该图像截取自哪一个图像的哪一个位置，方便后续的精细化分子识别，比如r基团替换等
-# 相比v2还有一些比如文件名之类的改动
-# 相比v3 修改了get_csv_from_pdf_by_zone.py为 改进了csv提取模式
 
 
 def sanitize_folder_name(name: str, max_length: int = 100) -> str:
