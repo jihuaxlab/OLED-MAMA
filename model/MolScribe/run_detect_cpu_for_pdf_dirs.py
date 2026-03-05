@@ -1,6 +1,5 @@
-# 使用外部程序调用,用于处理批量提取pdf信息后的分子结构识别
-# python run_detect_cpu_for_pdf_dirs.py --ckpt '/mnt/LargeStorageSpace/HEZhaoming/decode_chem_pdf/mol_recognize/MolScribe/model/swin_base_char_aux_1m.pth' --dir2process '/mnt/LargeStorageSpace/HEZhaoming/decode_chem_pdf/data/all-TADF-ref/outputs/' --skip_n 0
-from molscribe import MolScribe  # import 先后顺序很重要 需要先import这个库 再import torch
+# python run_detect_cpu_for_pdf_dirs.py --ckpt 'MolScribe/model/swin_base_char_aux_1m.pth' --dir2process your_output_dir --skip_n 0
+from molscribe import MolScribe  # Importing modules, the order is important. Import molscribe before torch.
 import torch
 import argparse
 from datetime import datetime
@@ -23,24 +22,22 @@ from tqdm import tqdm
 import re
 from datetime import datetime
 
-pdf_extracted_images_dir = 'extracted_images'  # 文件夹名称由批量提取pdf信息后的分子结构识别脚本中定义
-pdf_extracted_images_dir = 'extracted_images_for_ai'  # 文件夹名称由批量提取pdf信息后的分子结构识别脚本中定义
+pdf_extracted_images_dir = 'extracted_images_for_ai'  # Folder name defined in script for batch extraction of PDF information.
 
-with_denoise = False
+with_denoise = False # Image preprocessing not recommended
 with_prepocess = True
-ocr_expand_rate = 1.5  # 截取分子时候扩大范围用于保存分子名称标注，在识别分子结构时候需要裁剪多余部分
-white_threshold = 235 # 大于该值视为背景
+ocr_expand_rate = 1.5  # Enlarge the scope when cropping molecules to preserve labels, unnecessary parts need to be trimmed during structure recognition.
+white_threshold = 235 # Values greater than this are considered background.
 
 if with_denoise:
-    print("使用去噪处理图像")
+    print("Image denoising processing will be used.")
 else:
-    print("不使用去噪处理图像")
+    print("No image denoising processing.")
 
 if with_prepocess:
-    print("使用去白边预处理图像")
+    print("Preprocessing images by removing white borders will be used.")
 else:
-    print("不使用去白边预处理图像")
-
+    print("Not using preprocessing to remove white borders.")
 
 def get_run_args():
     parser = argparse.ArgumentParser()
@@ -89,25 +86,25 @@ def get_args(args_states=None):
 
 def is_light_color(pixel, low_threshold=200):
     """
-    判断像素是否为浅色。
-    :param pixel: 单个像素值或像素数组，假设是RGB格式。
-    :param low_threshold: 浅色判断阈值，默认200。
-    :return: 布尔值或布尔数组，表示像素是否为浅色。
+    Determine if a pixel or array of pixels is light.
+    :param pixel: Single pixel value or array of pixels, assumed to be RGB format.
+    :param low_threshold: Threshold for determining light color, default 200.
+    :return: Boolean or boolean array indicating whether the pixel is light.
     """
     return np.all(pixel >= low_threshold, axis=-1)
 
 
 def find_edge(image, direction, low_threshold=200):
     """
-    从中心开始向指定方向寻找边缘。
-    :param image: 输入图像，numpy数组形式，形状为(H, W, C)。
-    :param direction: 寻找方向，可以是'up', 'down', 'left', 'right'。
-    :param low_threshold: 浅色判断阈值，默认200。
-    :return: 边缘位置的索引。
+    Start from the center and search for the edge in the specified direction.
+    :param image: Input image, in numpy array form, with shape (H, W, C).
+    :param direction: Search direction, can be 'up', 'down', 'left', 'right'.
+    :param low_threshold: Threshold for light color, default is 200.
+    :return: Index of edge positions.
     """
     check_percentage = 0.03
     h, w, c = image.shape
-    h_check = max(3, int(h * check_percentage)) # 检查连续浅色的行数
+    h_check = max(3, int(h * check_percentage)) # Check the number of consecutive light-colored rows
     w_check = max(3, int(w * check_percentage))
     # print("h_check, w_check")
     # print(h_check, w_check, h, w)
@@ -172,11 +169,11 @@ def find_edge(image, direction, low_threshold=200):
 
 def remove_white_borders(image, pad_size=5, low_threshold=200):
     """
-    移除图像的白边，并在周围填充指定大小的白色区域。
-    :param image: 输入图像，numpy数组形式，形状为(H, W, C)。
-    :param pad_size: 四周填充的大小，默认5。
-    :param low_threshold: 浅色判断阈值，默认200。
-    :return: 处理后的图像。
+    Remove the white borders of the image and fill the surrounding area with a specified size of white regions.
+    :param image: Input image, in numpy array form, with shape (H, W, C).
+    :param pad_size: The size of the surrounding padding, default is 5.
+    :param low_threshold: The threshold for determining light colors, default is 200.
+    :return: The processed image.
     """
     top = find_edge(image, 'up', low_threshold)
     bottom = find_edge(image, 'down', low_threshold)
@@ -185,7 +182,6 @@ def remove_white_borders(image, pad_size=5, low_threshold=200):
 
     cropped_image = image[top:bottom, left:right]
     #
-    # 使用白色填充
     # white_pixel = np.array([255, 255, 255])
     # padded_image = np.pad(cropped_image, ((pad_size, pad_size), (pad_size, pad_size), (0, 0)), mode='constant', constant_values=white_pixel)
 
@@ -216,7 +212,7 @@ def denormalize(image_tensor, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.2
 
 def convert_tensor_items_to_python_types(data):
     """
-    递归地遍历字典或列表中的元素，并将其中的 Tensor 转换为 Python 数据类型。
+    Recursively traverse the elements in the dictionary or list, and convert the Tensors within them to Python data types.
     """
     if isinstance(data, dict):
         return {key: convert_tensor_items_to_python_types(value) for key, value in data.items()}
@@ -503,4 +499,5 @@ def main(opt):
 if __name__ == '__main__':
     run_opt = get_run_args()
     main(run_opt)
+
 
