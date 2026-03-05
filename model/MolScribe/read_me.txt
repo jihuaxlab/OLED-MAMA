@@ -1,1 +1,1 @@
-
+You need to download MolScribe at https://github.com/thomas0809/MolScribe and install it. On this basis, we have added the recognition and optimization functions specifically for molecules in the TADF field.
