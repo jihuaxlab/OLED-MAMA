@@ -27,7 +27,7 @@ Usage - formats:
                                  yolov5s_edgetpu.tflite     # TensorFlow Edge TPU
                                  yolov5s_paddle_model       # PaddlePaddle
 
-在save_txt 时增加了判断依据否则会把所有置信度的结果输出到推理结果输出
+Note: When saving the txt file, an additional judgment criterion was added. Otherwise, all the confidence results would be output to the inference result output.
 """
 
 import argparse
