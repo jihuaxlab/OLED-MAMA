@@ -1,0 +1,10 @@
+train: pdf_yolo_v2/dataset_with_tables/train
+val: pdf_yolo_v2/dataset_with_tables/eval
+
+# Classes
+nc: 4  # number of classes
+names:
+  0: mol
+  1: balls
+  2: electronic
+  3: tables
