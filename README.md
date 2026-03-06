@@ -41,7 +41,7 @@ After execution, extracted table data (JSON) will be placed inside the `table_im
 ---
 
 ## 🔍 Pipeline Steps
-If you prefer to run each agent separately, follow the steps below. All commands assume you are in the project root. 用该步骤能够进一步提取分子结构
+If you prefer to run each agent separately, follow the steps below. All commands assume you are in the project root. This step can further extract the molecular structure.
 
 ### Step 1: Preprocess PDFs (Figure/Table Detection)
 python main_extract_oled_preprocess.py --model_pt your_YOLO/weights/best.pt --yolo_project_path your_YOLO_master  --pdf_dir /data/pdf_examples/ --output_dir output/pdf_extract/run_tes
@@ -53,16 +53,18 @@ python main_tongyi_extract_img2json.py  --dir2process your_output_dir --skip_n 0
 python main_extract_oled_ocr.py  --dir2process your_output_dir --pdf_dir your_raw_pdf_dir --skip_n 0 --gpu 0
 
 ### 🧬Molecular Structure → SMILES Conversion
-基于上述4个步骤的结果（也就是quick start结果）使用Molecule structure 进一步转换smiles 码。提取的分子名称-匹配图像结果会放置在xxx，提取的分子名称-属性Json结果会放置在table_image文件夹
-运行model种的Molecule structure提取脚本，案例 python run_detect_cpu_for_pdf_dirs.py --ckpt 'MolScribe/model/swin_base_char_aux_1m.pth' --dir2process your_output_dir --skip_n 0
-
-你可以根据自己的需求对agent的实际工作进行修改从而满足你的需求。
+Based on the results from the aforementioned four steps (i.e., the "quick start" results), use the Molecule Structure module to further convert SMILES strings. The extracted molecule name–matched image results will be placed in xxx, and the extracted molecule name–property JSON results will be stored in the table_image folder.
+Run the Molecule Structure extraction script from the model—example provided below.
+```bash
+python run_detect_cpu_for_pdf_dirs.py --ckpt 'MolScribe/model/swin_base_char_aux_1m.pth' --dir2process your_output_dir --skip_n 0
+```
+You can modify the actual work of the agent according to your own needs to meet your requirements.
 
 ---
 
 ### 📁 Output Structure
 
-A typical output directory (`output/pdf_extract/run_test`) looks like:
+A typical output directory (`/run_test/pdf-name/`) looks like:
 
 ```
 molecules_detect_results_xxxxxxxxxx/
@@ -70,18 +72,12 @@ molecules_detect_results_xxxxxxxxxx/
 ├── cropped_images/       # cropped molecular structure images
 ├── detection_output/     # raw YOLO outputs
 ├── table-recognize/      # CSV versions of tables by direct pdf conversion
+├── mol_recognize_results/  # molecule sturctures output
 ├── ocr_closest_to_center_fix.json         # OCR mapping output
 └── extracted_images_fix/                  # OCR output
 ```
 
 ---
-
-
-## 📊Downstream Machine Learning
-The MLs/ folder contains six curated OLED material property datasets (TADF molecules) used in our paper. You can use these datasets directly or generate your own from extracted data.
-
-To create a training dataset from your own extracted JSON files:
-你可以用我们提供的 create_dataset_mol_get_properties.py 脚本从你自己提取的数据中提取数据训练你的机器学习模型。
 
 
 ## 📚 Citation
