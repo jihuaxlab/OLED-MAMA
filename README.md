@@ -45,19 +45,19 @@ If you prefer to run each agent separately, follow the steps below. All commands
 
 ### Step 1: Preprocess PDFs (Figure/Table Detection)
 ```bash
-python main_extract_oled_preprocess.py --model_pt your_YOLO/weights/best.pt --yolo_project_path your_YOLO_master  --pdf_dir /data/pdf_examples/ --output_dir output/pdf_extract/run_tes
+python main_extract_oled_preprocess.py --model_pt <your_YOLO/weights/best.pt> --yolo_project_path <your_YOLO_master>  --pdf_dir </data/pdf_examples/> --output_dir [output/pdf_extract/run_tes]
 ```
 ### Step 2: Extract Tables images
 ```bash
-python main_extract_pdf_csv_only.py  --dir2process your_output_dir --pdf_dir your_raw_pdf_dir --skip_n 0
+python main_extract_pdf_csv_only.py  --dir2process <your_output_dir> --pdf_dir <your_raw_pdf_dir> --skip_n [0]
 ```
 ### Step 3: Extract Tables data
 ```bash
-python main_tongyi_extract_img2json.py  --dir2process your_output_dir --skip_n 0
+python main_tongyi_extract_img2json.py  --dir2process <your_output_dir> --skip_n [0]
 ```
 ### Step 4: OCR Text - molecules mapping
 ```bash
-python main_extract_oled_ocr.py  --dir2process your_output_dir --pdf_dir your_raw_pdf_dir --skip_n 0 --gpu 0
+python main_extract_oled_ocr.py  --dir2process <your_output_dir> --pdf_dir <your_raw_pdf_dir> --skip_n [0] --gpu [0]
 ```
 ### 🧬Molecular Structure → SMILES Conversion
 Based on the results from the aforementioned four steps (i.e., the "quick start" results), use the Molecule Structure module to further convert SMILES strings. The extracted molecule name–matched image results will be placed in xxx, and the extracted molecule name–property JSON results will be stored in the table_image folder.
