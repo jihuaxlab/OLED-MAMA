@@ -9,11 +9,11 @@ import matplotlib.pyplot as plt
 # ==============================
 # Step 1: 加载数据
 # ==============================
-df_props = pd.read_csv(r'D:\TADF_project\pdf_decode_chem_project\data\mol_energy_data_with_condition_corr.csv')
-df_props_sim = pd.read_csv(r'D:\TADF_project\pdf_decode_chem_project\data\mol_energy_data_simulation.csv')
-df_ecfp_mol = pd.read_csv(r'D:\TADF_project\pdf_decode_chem_project\data\smiles_to_id_mapping_ecfp_12.csv')  # 分子的 ECFP
+df_props = pd.read_csv(r'./data\mol_energy_data_with_condition_corr.csv')
+df_props_sim = pd.read_csv(r'./data\mol_energy_data_simulation.csv')
+df_ecfp_mol = pd.read_csv(r'./data\smiles_to_id_mapping_ecfp_12.csv')  # 分子的 ECFP
 df_ecfp_cond = pd.read_csv(
-    r'D:\TADF_project\pdf_decode_chem_project\data\mol_energy_data_condition_ecfp_fingerprints.csv')  # condition 的 ECFP
+    r'./data\mol_energy_data_condition_ecfp_fingerprints.csv')  # condition 的 ECFP
 
 n_bits_mol = 2048
 simulation_in_train = True
@@ -296,3 +296,4 @@ for i, target in enumerate(['E_ST', 'S1', 'T1'], 1):
 plt.tight_layout()
 plt.savefig('xgboost_comparison_2x3_with_vs_without_condition.png', dpi=300, bbox_inches='tight')
 plt.show()
+
