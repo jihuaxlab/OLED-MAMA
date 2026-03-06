@@ -1,4 +1,6 @@
 # preprocess -> preprocess tables -> vllm -> ocr -> mol recognization
+# python main_extract_oled_preprocess.py --model_pt /weights/best.pt --yolo_project_path YOLO  --pdf_dir pdf_examples/run_test --output_dir output/pdf_extract/run_tes
+
 import subprocess
 import os
 import sys
