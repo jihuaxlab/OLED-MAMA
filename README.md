@@ -94,7 +94,7 @@ Raw property data from our public dataset comprises over 2,900 molecules extract
 <p align="left">
   <img src="./MLs/properties.png" alt="Raw Property Data" width="600"/>
 </p>
-XGBoost Test Results on Six Typical Properties  
+The figure below shows the XGBoost test results on six typical properties, using molecular fingerprints and one-hot encoded test conditions as input features on the test set.
 <p align="left">
   <img src="./MLs/properties_prediction.png" alt="Results on TEST DATASET" width="600"/>
 </p>
