@@ -19,7 +19,6 @@ PAPER_ROOT_DIR = r'your pdf output dir' #
 OUTPUT_DIR = r'./output'
 
 OUTPUT_FILE_NAME = 'mol_PL_data_with_condition.csv'
-# OUTPUT_FILE_NAME = 'mol_energy_data_simulation.csv'
 
 # -----------------------------
 # 属性定义（支持 | 分隔的别名）
@@ -559,3 +558,4 @@ with open(output_path, 'w', newline='', encoding='utf-8') as f:
 
 
 print(f"✅ CSV 已保存为 {output_path}")
+
