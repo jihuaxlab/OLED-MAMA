@@ -2,7 +2,7 @@
 **A multi-agent framework for automated extraction of OLED material data from scientific literature.**  
 🧪 OLED-MAMA combines computer vision, OCR, and large language models to extract structured information (molecular structures, properties, tables) from PDF documents. It transforms unstructured literature into clean, machine-readable datasets ready for downstream machine learning tasks, enabling accelerated materials discovery.
 
-[![Python 3.9+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![EasyOCR](https://img.shields.io/badge/EasyOCR-1.7.2-green)](https://github.com/JaidedAI/EasyOCR)
 [![OpenCV](https://img.shields.io/badge/OpenCV-4.8.0-red)](https://opencv.org/)
