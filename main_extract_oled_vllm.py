@@ -1,5 +1,5 @@
 # preprocess -> preprocess tables -> vllm -> ocr -> mol recognization
-# python main_tongyi_extract_img2json.py  --dir2process /mnt/LargeStorageSpace/HEZhaoming/decode_chem_pdf/output/pdf_extract/run_test --skip_n 0 
+# python main_extract_oled_vllm.py  --dir2process output/pdf_extract/run_test --skip_n 0 
 
 import argparse
 from datetime import datetime
@@ -27,10 +27,10 @@ def get_run_args():
 
 def find_latest_molecules_result_folder(base_dir):
     """
-    在 base_dir 中查找以 'molecules_detect_results_' 开头且时间戳最新的文件夹
+    Search for the folder in the base_dir that starts with 'molecules_detect_results_' and has the latest timestamp. 
 
-    :param base_dir: 要搜索的根目录路径
-    :return: 最新文件夹的完整路径，若未找到则返回 None
+    :param base_dir: The root directory path to search
+    :return: The complete path of the latest folder. If not found, return None
     """
     pattern = re.compile(r'^molecules_detect_results_(\d{8}_\d{6})$')
     candidate_folders = []
@@ -42,17 +42,17 @@ def find_latest_molecules_result_folder(base_dir):
             if match:
                 timestamp_str = match.group(1)  # e.g., "20251120_080123"
                 try:
-                    # 将时间戳字符串解析为 datetime 对象，用于比较
+                    # Parse the timestamp string into a datetime object for comparison purposes.
                     dt = datetime.strptime(timestamp_str, "%Y%m%d_%H%M%S")
                     candidate_folders.append((dt, item_path))
                 except ValueError:
-                    # 时间格式不合法，跳过
+                    # The time format is invalid. Skipping.
                     continue
 
     if not candidate_folders:
         return None
 
-    # 按时间戳排序，取最新的（最大值）
+    # Sort by timestamp and select the latest (maximum value)
     latest_folder = max(candidate_folders, key=lambda x: x[0])[1]
     return latest_folder
 
@@ -62,8 +62,8 @@ def main(opt):
     all_pdfs_dir = os.listdir(root_path)
     skip_i = opt.skip_n
 
-    print(f"处理文献文件夹共计数量{len(all_pdfs_dir)}")
-    print(f"启动文件序号：{skip_i}")
+    print(f"The total number of document folders {len(all_pdfs_dir)}")
+    print(f"Startup file number：{skip_i}")
     ii = 0
     for pdf_dir_name in tqdm(all_pdfs_dir):
         if ii < skip_i:
@@ -78,9 +78,8 @@ def main(opt):
         # table_imgs_dir = os.path.join(output_dir, f'table-recognize-{timestamp}')
         table_imgs_dir = os.path.join(output_dir, output_dir_name)
         if not os.path.isdir(table_imgs_dir):
-            print(f"{table_imgs_dir} 不存在跳过")
+            print(f"{table_imgs_dir} not found")
             continue
-        # print("处理csv文件夹： ", table_imgs_dir)
         
         extract_csv_script = os.path.join(os.getcwd(), "tongyi_get_mol_dict_from_table_img.py")
         command = [
