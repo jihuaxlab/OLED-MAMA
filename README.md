@@ -1,4 +1,4 @@
-# OLED-MAMA
+# ✨ OLED-MAMA ✨
 **A multi-agent framework for automated extraction of OLED material data from scientific literature.**  
 🤖 OLED-MAMA combines computer vision, OCR, and large language models to extract structured information (molecular structures, properties, tables) from PDF documents. It transforms unstructured literature into clean, machine-readable datasets ready for downstream machine learning tasks, enabling accelerated materials discovery.
 
