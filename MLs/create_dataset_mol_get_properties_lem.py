@@ -23,10 +23,6 @@ OUTPUT_FILE_NAME = 'mol_PL_data_with_condition.csv'
 # -----------------------------
 # 属性定义（支持 | 分隔的别名）
 # -----------------------------
-# obj_properties_raw = [
-#     'E_ST|D_ST|EST', 'λem', 'λ_EL|λEL', 'PLQY|', 'S₁|S1', 'T₁|T1', 'k_rISC|krISC|k_RISC|k_risc',
-#     'EQE|External Quantum Efficiency', 'CIE', 'FWHM', 'PEmax|lm W⁻¹|lm W-1|Power efficiency', 'CEmax|cd A¹|cd A-1|Current efficiency'
-# ]
 
 obj_properties_raw = [
     'λem|λ_em|λ em', 'Φ PLQY|Φ_PLQY', 'FWHM'
@@ -40,7 +36,6 @@ first_selection = ['neat film', 'toluene', 'PMMA', 'mCP', 'mCBP', 'DPEPO', '2-Me
                    '2,6-DCzPPy', 'TCTA', 'PO-T2T', 'B3PYMPM', 'DOBNA-OAr', 'Bepp2', 'ethanol', 'cyclohexane',
                    'hexane', 'SiTrzCz2',
                    'pyd2', 'CzSi', 'PhCzBCz', 'PS', 'TSPO1', 'TPBi', 'simulation']  # 可优先选择甲苯溶液中的数据
-# first_selection = ['simulation']  # 可优先选择甲苯溶液中的数据
 
 condtion = {'PMMA' :['PMMA', 'polymethyl methacrylate'],
             'mCP': ['mCP', '1,3-Bis(N-carbazolyl)benzene', '1,3-di-9-carbazolylbenzene'],
@@ -558,4 +553,5 @@ with open(output_path, 'w', newline='', encoding='utf-8') as f:
 
 
 print(f"✅ CSV 已保存为 {output_path}")
+
 
