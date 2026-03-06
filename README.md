@@ -49,15 +49,15 @@ python main_extract_oled_preprocess.py --model_pt <your_YOLO/weights/best.pt> --
 ```
 ### Step 2: Extract Tables images
 ```bash
-python main_extract_pdf_csv_only.py  --dir2process <your_output_dir> --pdf_dir <your_raw_pdf_dir> --skip_n [0]
+python main_extract_pdf_csv_only.py  --dir2process <your_output_dir> --pdf_dir <your_raw_pdf_dir> --skip_n [skip n paper (default 0)]
 ```
 ### Step 3: Extract Tables data
 ```bash
-python main_tongyi_extract_img2json.py  --dir2process <your_output_dir> --skip_n [0]
+python main_tongyi_extract_img2json.py  --dir2process <your_output_dir> --skip_n [skip n paper (default 0)]
 ```
 ### Step 4: OCR Text - molecules mapping
 ```bash
-python main_extract_oled_ocr.py  --dir2process <your_output_dir> --pdf_dir <your_raw_pdf_dir> --skip_n [0] --gpu [0]
+python main_extract_oled_ocr.py  --dir2process <your_output_dir> --pdf_dir <your_raw_pdf_dir> --skip_n [skip n paper (default 0)] --gpu [default 0]
 ```
 ### 🧬Molecular Structure → SMILES Conversion
 Based on the results from the aforementioned four steps (i.e., the "quick start" results), use the Molecule Structure module to further convert SMILES strings. The extracted molecule name–matched image results will be placed in xxx, and the extracted molecule name–property JSON results will be stored in the table_image folder.
