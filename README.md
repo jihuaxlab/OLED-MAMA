@@ -90,6 +90,15 @@ molecules_detect_results_xxxxxxxxxx/
 The MLs/ folder contains six curated OLED material property datasets (TADF molecules) used in our paper. You can use these datasets directly or generate your own from extracted data.
 This script (`MLs/create_dataset_mol_get_properties_xx.py`) parses the molecule‑property JSONs and compiles them into a clean CSV ready for ML models.
 
+Raw property data from our public dataset comprises over 2,900 molecules extracted from 1,600 scientific publications.
+<p align="center">
+  <img src="./MLs/properties.png" alt="Raw Property Data" width="600"/>
+</p>
+XGBoost Test Results on Six Typical Properties  
+<p align="center">
+  <img src="./MLs/properties_prediction.png" alt="Results on TEST DATASET" width="600"/>
+</p>
+
 ---
 ## 📚 Citation
 
