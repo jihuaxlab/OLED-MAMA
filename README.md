@@ -57,93 +57,193 @@ OLED-MAMA: Multi-Agent Framework for OLED Material Data Extraction
 
 OLED-MAMA is a modular, multi-agent pipeline designed to automatically extract structured molecular data from scientific PDFs related to Organic Light-Emitting Diodes (OLEDs).
 
-🚀 Quick Start
+# OLED-MAMA 🔬✨
 
-Make the script executable and run:
+**A multi-agent framework for automated extraction of OLED material data from scientific literature.**  
+OLED-MAMA combines computer vision, OCR, and large language models to extract structured information (molecular structures, properties, tables) from PDF documents, enabling accelerated materials discovery.
 
-bash
-chmod +x run_pipeline.sh
-./run_pipeline.sh    [output_dir] [gpu_id]
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![EasyOCR](https://img.shields.io/badge/EasyOCR-1.7.2-green)](https://github.com/JaidedAI/EasyOCR)
+[![OpenCV](https://img.shields.io/badge/OpenCV-4.8.0-red)](https://opencv.org/)
 
-Example:
-bash
+---
+
+## 📖 Overview
+
+OLED-MAMA is a modular, agent‑based pipeline designed to extract molecular data from OLED‑related research papers. It processes PDF collections through four sequential agents:
+
+1. **Preprocessing Agent** – detects figures/tables using YOLO  
+2. **Table Extraction Agent** – converts detected tables to CSV  
+3. **Vision‑Language Agent** – interprets molecular images via DashScope (Tongyi)  
+4. **OCR Agent** – reads text from paper fragments  
+
+The extracted data can then be converted to SMILES (using MolScribe) and used for downstream machine learning tasks.
+
+---
+
+## 🛠️ Requirements
+
+- Python 3.8+
+- Install dependencies:
+
+```bash
+pip install easyocr==1.7.2 opencv-python==4.8.0.74 pdf2image==1.16.3 dashscope==1.25.2
+```
+
+> **Note:** `pdf2image` requires `poppler` to be installed on your system ([installation guide](https://pdf2image.readthedocs.io/en/latest/installation.html)).
+
+---
+
+## 🚀 Quick Start
+
+The entire pipeline can be launched with a single bash script:
+
+```bash
+./run_pipeline.sh <raw_pdf_dir> <yolo_weight> <yolo_project> [output_dir] [gpu_id]
+```
+
+**Example:**
+```bash
 ./run_pipeline.sh /data/pdf_examples/ yolov5l/best.pt YOLOv5 output/pdf_extract/run_test 0
+```
 
- – directory containing the PDF files to process  
- – path to YOLOv5 weights (best.pt)  
- – name of the YOLO project (used internally)  
-[output_dir] – optional output directory (default: ./output)  
-[gpu_id] – optional GPU ID for inference (default: CPU)
+- `<raw_pdf_dir>` – directory containing the PDF files to process  
+- `<yolo_weight>` – path to YOLOv5 weights (`best.pt`)  
+- `<yolo_project>` – name of the YOLO project (used internally)  
+- `[output_dir]` – optional output directory (default: `./output`)  
+- `[gpu_id]` – optional GPU ID for YOLO inference (default: CPU)
 
-🔍 Pipeline Steps
+After execution, extracted table data (JSON) will be placed inside the `table_image` folder under your output directory.
+
+---
+
+## 🔬 Detailed Step‑by‑Step Extraction
 
 If you prefer to run each agent separately, follow the steps below. All commands assume you are in the project root.
 
-Step 1: Preprocess PDFs (Figure/Table Detection)
-bash
+### Step 1: Preprocess PDFs (Figure/Table Detection)
+
+```bash
 python main_extract_oled_preprocess.py \
-  --model_pt your_YOLO/weights/best.pt \
-  --yolo_project_path your_YOLO_master \
-  --pdf_dir /data/pdf_examples/ \
-  --output_dir output/pdf_extract/run_test
+    --model_pt your_YOLO/weights/best.pt \
+    --yolo_project_path your_YOLO_master \
+    --pdf_dir /data/pdf_examples/ \
+    --output_dir output/pdf_extract/run_test
+```
 
-Step 2: Extract Table Images
-bash
+This step uses a YOLO model to detect tables and molecular structure images in each page of the PDFs. Detected regions are saved as cropped images.
+
+### Step 2: Extract Tables to CSV
+
+```bash
 python main_extract_pdf_csv_only.py \
-  --dir2process your_output_dir \
-  --pdf_dir your_raw_pdf_dir \
-  --skip_n 0
+    --dir2process output/pdf_extract/run_test \
+    --pdf_dir /data/pdf_examples/ \
+    --skip_n 0
+```
 
-Step 3: Extract Structured Table Data (via LLM)
-bash
+Converts the detected table images into CSV files using OCR and post‑processing.
+
+### Step 3: Interpret Molecular Images with DashScope (Tongyi)
+
+```bash
 python main_tongyi_extract_img2json.py \
-  --dir2process your_output_dir \
-  --skip_n 0
+    --dir2process output/pdf_extract/run_test \
+    --skip_n 0
+```
 
-Step 4: OCR and Molecule Name Mapping
-bash
+Sends cropped molecular images to the DashScope API (requires proper configuration of API keys) and receives structured descriptions in JSON format.
+
+### Step 4: OCR Text Extraction
+
+```bash
 python main_extract_oled_ocr.py \
-  --dir2process your_output_dir \
-  --pdf_dir your_raw_pdf_dir \
-  --skip_n 0 \
-  --gpu 0
+    --dir2process output/pdf_extract/run_test \
+    --pdf_dir /data/pdf_examples/ \
+    --skip_n 0 \
+    --gpu 0
+```
 
-✅ The extracted molecule–property JSON files will be saved in table-images/ subdirectories.  
-✅ Molecule name–image matching results will be placed in extracted_images_fix/.
+Performs OCR on the remaining text regions to capture captions, labels, and property values.
 
-🧬 Molecular Structure → SMILES Conversion
+---
 
-After completing the four steps above, you can convert molecular structure images to SMILES strings using MolScribe:
+## 🧪 Molecular Structure → SMILES Conversion
 
-bash
-python model/run_detect_cpu_for_pdf_dirs.py \
-  --ckpt 'MolScribe/model/swin_base_char_aux_1m.pth' \
-  --dir2process your_output_dir \
-  --skip_n 0
+After the four agents have run, you can convert the extracted molecular structure images into SMILES strings using **MolScribe**.
 
-This step enables downstream chemical validation and property prediction.
+**Example command:**
 
-💡 You can modify any agent’s logic to suit your specific extraction needs.
+```bash
+python run_detect_cpu_for_pdf_dirs.py \
+    --ckpt 'MolScribe/model/swin_base_char_aux_1m.pth' \
+    --dir2process output/pdf_extract/run_test \
+    --skip_n 0
+```
 
-📊 Downstream Machine Learning
+- Extracted molecule images are saved under `<output_dir>/molecule_images` (configurable).  
+- The resulting molecule‑property JSON files are placed in the `table_image` folder alongside the table data.
 
-The MLs/ folder contains six curated datasets of TADF OLED molecules with validated properties (e.g., ΔE_ST, λ_PL, EQE, lifetime, HOMO/LUMO levels) used in our paper.
+> 💡 Make sure you have the MolScribe repository and pre‑trained weights downloaded. See [MolScribe](https://github.com/thomas0809/MolScribe) for details.
 
-To generate your own training dataset from extracted JSON results:
+---
 
-bash
+## 🤖 Downstream Machine Learning
+
+The `MLs/` folder contains **six curated OLED material property datasets** (TADF molecules) used in our paper. You can use these datasets directly or generate your own from extracted data.
+
+To create a training dataset from your own extracted JSON files:
+
+```bash
 python MLs/create_dataset_mol_get_properties.py \
-  --input_dir your_output_dir \
-  --output_file my_oled_dataset.csv
+    --input_dir output/pdf_extract/run_test \
+    --output_csv my_dataset.csv
+```
 
-You can then use this dataset to train custom machine learning models for OLED material discovery.
+This script parses the molecule‑property JSONs and compiles them into a clean CSV ready for ML models.
 
-✅ 使用说明：  
-全选上方从 # OLED-MAMA... 到最后一行的内容  
-粘贴到你项目根目录的 README.md 文件中  
-提交到 GitHub，即可获得清晰、专业、可交互的文档页面
+---
 
-如需添加环境安装、引用信息或截图占位符，也可以告诉我，我来帮你补充！
+## 📁 Output Structure
+
+A typical output directory (`output/pdf_extract/run_test`) looks like:
+
+```
+run_test/
+├── table_image/           # JSON files for extracted tables
+├── molecule_images/       # cropped molecular structure images
+├── ocr_text/              # raw OCR outputs
+├── csv_tables/            # CSV versions of tables
+└── logs/                  # processing logs
+```
+
+---
+
+## ✏️ Customization
+
+Each agent is designed to be modular. You can:
+- Replace the YOLO model with a custom detector.
+- Swap the DashScope agent with another vision‑language model.
+- Modify OCR parameters in `main_extract_oled_ocr.py` to suit different PDF qualities.
+
+See the comments inside each script for detailed configuration options.
+
+---
+
+## 📚 Citation
+
+If you use OLED-MAMA in your research, please cite our paper (to be added).
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+
+---
+
+*Happy extracting!* 🧪🔍
 
 
 
