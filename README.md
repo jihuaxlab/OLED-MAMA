@@ -88,7 +88,7 @@ molecules_detect_results_xxxxxxxxxx/
 ## ✏️ Downstream Machine Learning
 
 The MLs/ folder contains six curated OLED material property datasets (TADF molecules) used in our paper. You can use these datasets directly or generate your own from extracted data.
-This script MLs/create_dataset_mol_get_properties_xx.py parses the molecule‑property JSONs and compiles them into a clean CSV ready for ML models.
+This script (`MLs/create_dataset_mol_get_properties_xx.py`) parses the molecule‑property JSONs and compiles them into a clean CSV ready for ML models.
 
 ---
 ## 📚 Citation
