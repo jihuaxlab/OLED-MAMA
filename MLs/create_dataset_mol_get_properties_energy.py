@@ -41,7 +41,7 @@ first_selection = ['neat film', 'toluene', 'PMMA', 'mCP', 'mCBP', 'DPEPO', '2-Me
                    '2,6-DCzPPy', 'TCTA', 'PO-T2T', 'B3PYMPM', 'DOBNA-OAr', 'Bepp2', 'ethanol', 'cyclohexane',
                    'hexane', 'SiTrzCz2',
                    'pyd2', 'CzSi', 'PhCzBCz', 'PS', 'TSPO1', 'TPBi', 'simulation']  # 可优先选择甲苯溶液中的数据
-# first_selection = ['simulation']  # 可优先选择甲苯溶液中的数据
+# first_selection = ['simulation']  # DFT
 
 condtion = {'PMMA' :['PMMA', 'polymethyl methacrylate'],
             'mCP': ['mCP', '1,3-Bis(N-carbazolyl)benzene', '1,3-di-9-carbazolylbenzene'],
@@ -560,4 +560,5 @@ with open(output_path, 'w', newline='', encoding='utf-8') as f:
     writer.writerows(output_rows)
 
 print(f"✅ CSV 已保存为 {output_path}")
+
 
