@@ -1,3 +1,4 @@
+# preprocess -> preprocess tables -> vllm -> ocr -> mol recognization
 import subprocess
 import os
 import sys
