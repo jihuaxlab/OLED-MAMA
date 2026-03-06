@@ -1,6 +1,12 @@
 # OLED-MAMA
 This a multi-agent framework specifically designed for OLED material data extraction.
 
+项目主要使用的环境
+easyocr                   1.7.2
+opencv-python             4.8.0.74
+pdf2image                 1.16.3
+dashscope                 1.25.2
+
 快速start
 直接运行 extract.sh
 
