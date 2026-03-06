@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ./run_pipeline.sh <raw_pdf_dir> <yolo_weight> <yolo_project> [output_dir] [gpu_id]
-# Example: ./run_pipeline.sh /data/pdf_examples/ yolov8s/best.pt /opt/YOLOv8 output/pdf_extract/run_test 0
+# Example: ./run_pipeline.sh /data/pdf_examples/ yolov5l/best.pt YOLOv5 output/pdf_extract/run_test 0
 
 set -e
 
