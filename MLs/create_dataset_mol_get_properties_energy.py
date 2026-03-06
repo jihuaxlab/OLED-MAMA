@@ -13,10 +13,10 @@ import statistics
 # 配置路径
 # -----------------------------
 # 合集
-MAPPING_CSV = r'D:\工作报告\化学计算\数据\llm_vl\smiles_to_id_mapping_12.csv'
-PAPER_MAPPING_CSV = r'D:\工作报告\化学计算\数据\llm_vl\output_mapping_12.csv'
-PAPER_ROOT_DIR = r'D:\工作报告\化学计算\数据\llm_vl\TADF-PDF-LLM-VL-CORR' # 不在需要找最新文件夹直接就是table_image的json文件夹
-OUTPUT_DIR = r'D:\工作报告\化学计算\数据\llm_vl'
+MAPPING_CSV = r'./data\smiles_to_id_mapping_12.csv'
+PAPER_MAPPING_CSV = r'/data\output_mapping_12.csv'
+PAPER_ROOT_DIR = r'your pdf output dir' # 
+OUTPUT_DIR = r'./output'
 
 OUTPUT_FILE_NAME = 'mol_energy_data_with_condition.csv'
 # OUTPUT_FILE_NAME = 'mol_energy_data_simulation.csv'
@@ -560,3 +560,4 @@ with open(output_path, 'w', newline='', encoding='utf-8') as f:
     writer.writerows(output_rows)
 
 print(f"✅ CSV 已保存为 {output_path}")
+
