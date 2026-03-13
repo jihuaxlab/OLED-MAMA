@@ -76,11 +76,14 @@ A typical output directory (`/run_test/pdf-name/`) looks like:
 ```
 molecules_detect_results_xxxxxxxxxx/
 ├── table_image/           # extracted tables and JSON files for them
+     ├── page_x_table_x.json           # data in tables (name - properties mapping)
+     └── page_x_table_x.png            # table images
 ├── cropped_images/       # cropped molecular structure images
 ├── detection_output/     # raw YOLO outputs
 ├── table-recognize/      # CSV versions of tables by direct pdf conversion
 ├── mol_recognize_results/  # molecule sturctures output
-├── ocr_closest_to_center_fix.json         # OCR mapping output
+     └── mol_recognize_result_xxxxxxxx_xxxxxx.json     # (molecular images - smiles mapping)
+├── ocr_closest_to_center_fix.json         # OCR mapping output  (name - image path mapping) 
 └── extracted_images_fix/                  # OCR output
 ```
 
