@@ -60,8 +60,8 @@ python main_tongyi_extract_img2json.py  --dir2process <your_output_dir> --skip_n
 python main_extract_oled_ocr.py  --dir2process <your_output_dir> --pdf_dir <your_raw_pdf_dir> --skip_n [skip n paper (default 0)] --gpu [default 0]
 ```
 ### 🧬Molecular Structure → SMILES Conversion
-Based on the results from the aforementioned four steps (i.e., the "quick start" results), use the Molecule Structure module to further convert SMILES strings. The extracted molecule name–matched image results will be placed in xxx, and the extracted molecule name–property JSON results will be stored in the table_image folder.
-Run the Molecule Structure extraction script from the model—example provided below.
+Based on the results from the aforementioned four steps (i.e., the "quick start" results), use the Molecule Structure module to further convert SMILES strings. The extracted molecule name–matched image results will be placed in the molecules_detect_results_xxxxxxxxxx folder (ocr_closest_to_center_fix.json), and the extracted molecule name–property JSON  results will be stored in the table_image/ folder.
+Run the Molecule Structure extraction script from the model—example provided below. The result will be generated in the folder named "mol_recognize_results/"  (mol_recognize_result_xxxxxxxx_xxxxxx.json). This Json file provides a detailed record of the smiles present in the image and the path of recognization results.
 ```bash
 python run_detect_cpu_for_pdf_dirs.py --ckpt 'MolScribe/model/swin_base_char_aux_1m.pth' --dir2process your_output_dir --skip_n 0
 ```
