@@ -1,6 +1,4 @@
-# 用于指定的属性构建数据集
-# 细节：按顺序遍历所有paper文件夹中的json：基于json中记录的数据按照（paper，分子名称）寻找MOLID
-# 用于提取能量相关属性
+# For constructing the dataset based on specified attributes
 import os
 import json
 import pandas as pd
@@ -560,6 +558,7 @@ with open(output_path, 'w', newline='', encoding='utf-8') as f:
     writer.writerows(output_rows)
 
 print(f"✅ CSV 已保存为 {output_path}")
+
 
 
 
